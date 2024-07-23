@@ -1,0 +1,39 @@
+# build image
+docker build -t squid:latest .
+
+docker images |grep squid
+
+# expose port
+docker run -d --rm --name squid-container -e TZ=UTC -p 3128:3128 ubuntu/squid:latest
+
+# if needed for ease of local troubleshooting, Singapore timezone
+docker run -d --rm --name squid-container -e TZ=Asia/Singapore -p 3128:3128 ubuntu/squid:latest
+
+docker run -d --rm --name squid-container -v $(pwd)/log:/var/log/squid:rw -v $(pwd)/data:/var/spool/squid:rw -v $(pwd)/config/squid.conf:/etc/squid/squid.conf:rw -v $(pwd)/config/snippet.conf:/etc/squid/conf.d/snippet.conf:rw -p 3128:3128 squid:latest
+
+docker exec -it squid-container bash
+
+docker stop squid-container
+
+docker ps -a |grep squid
+
+docker images |grep squid
+
+-v /path/to/logs:/var/log/squid	Volume to store squid logs
+-v /path/to/data:/var/spool/squid	Volume to store the squid cache
+-v /path/to/main/config:/etc/squid/squid.conf	Main squid configuration file
+-v /path/to/config/snippet:/etc/squid/conf.d/snippet.conf	Configuration snippets included by squid.conf
+
+### Docker image administration
+# logout docker account
+docker logout
+
+# login with username and password
+docker login
+
+# push docker images to dockerhub
+docker tag squid:latest:latest docker6617/squid:latest
+
+docker push docker6617/squid:latest
+
+
