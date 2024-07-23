@@ -10,8 +10,8 @@ fi
 NETWORK_SERVICE="Wi-Fi"
 
 # Define the proxy settings (adjust as needed)
-PROXY_SERVER="proxy.example.com"
-PROXY_PORT="8080"
+PROXY_SERVER="squid.com"
+PROXY_PORT="3128"
 
 # Function to enable proxy
 enable_proxy() {
